@@ -9,6 +9,11 @@ export default new Router({
       path: '/',
       name: 'home',
       component: ()=>import("@/views/home/index")
+    },
+    {
+      path: '/interactiveFile',
+      name: 'interactiveFile',
+      component: ()=>import("@/views/interactiveFile/index")
     }
   ]
 })
