@@ -9,7 +9,7 @@
       text-color="#fff"
       active-text-color="#ffd04b"
     >
-      <el-menu-item index="/">Home</el-menu-item>
+      <el-menu-item index="/"><a href="/">Home</a></el-menu-item>
     </el-menu>
   </div>
 </template>
@@ -21,5 +21,7 @@ export default {
 </script>
  
 <style scoped>
-
+a {
+  text-decoration: none;
+}
 </style>

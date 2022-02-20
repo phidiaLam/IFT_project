@@ -2,6 +2,7 @@
   <div id="app-main">
     <navbar></navbar>
     <el-upload
+     class="upload_btn"
       drag
       :auto-upload="false"
       action="#"
@@ -49,5 +50,9 @@ export default {
  
 <style lang="less" scoped>
 #app-main {
+  .upload_btn {
+    text-align:center;
+    margin-top: calc(50vh - 150px);
+  }
 }
 </style>
