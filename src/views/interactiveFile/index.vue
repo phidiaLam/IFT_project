@@ -7,7 +7,7 @@
       <el-col :span="8">
         <div class="show_box">
           <json-viewer
-            :value="jsonText"
+            :value="jsonFormat"
             :expand-depth="4"
             expanded
             copyable
@@ -34,7 +34,7 @@ export default {
   data() {
     return {
       changeTool: new FilesToJson(),
-      jsonText: "",
+      jsonFormat: "",
     };
   },
   components: {
@@ -71,10 +71,11 @@ export default {
             break;
         }
         // use method in the class to change file data to json format
-        this.changeTool.changeToJson();
-        console.log(this.changeTool.jsonText);
-        this.jsonText = JSON.parse(this.changeTool.jsonText);
-        console.log(this.jsonText);
+        this.changeTool.changeToJson().then((_) => {
+          console.log(this.changeTool.jsonText);
+          this.jsonFormat = JSON.parse(this.changeTool.jsonText);
+          console.log(this.jsonFormat);
+        });
 
         // remove the item in the local storage
         localStorage.removeItem("value");

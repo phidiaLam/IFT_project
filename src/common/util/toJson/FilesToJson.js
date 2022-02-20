@@ -11,7 +11,7 @@ class FilesToJson {
         this.inputText = inputText;
     }
 
-    changeToJson () {
+    async changeToJson () {
         console.log("Not complete yet")
     }
 }
