@@ -13,6 +13,6 @@ export class CsvToJson extends FilesToJson {
             header: true,
             dynamicTyping: true
         });
-        this.jsonText = JSON.stringify(json);
+        this.jsonText = JSON.parse(JSON.stringify(json.data));
     }
 }

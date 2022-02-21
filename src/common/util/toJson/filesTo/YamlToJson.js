@@ -8,8 +8,6 @@ export class YamlToJson extends FilesToJson {
     }
 
     async changeToJson() {
-        let json;
-        json = yaml.load(this.inputText);
-        this.jsonText = JSON.stringify(json);
+        this.jsonText = yaml.load(this.inputText);
     }
 }

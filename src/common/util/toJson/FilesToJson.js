@@ -1,4 +1,11 @@
+// remove Spaces at the beginning and end
+function trimStr(str) {
+    if (str) {
 
+        return str.replace(/(^\s*)|(\s*$)/g, "");
+    }
+    return str
+}
 
 class FilesToJson {
     // input files
@@ -8,11 +15,13 @@ class FilesToJson {
 
 
     constructor(inputText) {
+
+
         this.jsonText = '';
-        this.inputText = inputText;
+        this.inputText = trimStr(inputText);
     }
 
-    async changeToJson () {
+    async changeToJson() {
         console.log("Not complete yet")
     }
 }

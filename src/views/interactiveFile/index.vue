@@ -71,8 +71,7 @@ export default {
         }
         // use method in the class to change file data to json format
         this.changeTool.changeToJson().then((_) => {
-          console.log(this.changeTool.jsonText);
-          this.jsonFormat = JSON.parse(this.changeTool.jsonText);
+          this.jsonFormat = JSON.parse(JSON.stringify(this.changeTool.jsonText));
           console.log(this.jsonFormat);
         });
 

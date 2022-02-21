@@ -7,6 +7,6 @@ export class JsonToJson extends FilesToJson {
     }
 
     async changeToJson() {
-        this.jsonText = this.inputText;
+        this.jsonText = JSON.parse(this.inputText);
     }
 }

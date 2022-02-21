@@ -8,6 +8,6 @@ export class XmlToJson extends FilesToJson {
     }
 
     async changeToJson() {
-        this.jsonText = xml2js.xml2json(this.inputText, {compact: true, spaces: 4});
+        this.jsonText = JSON.parse(xml2js.xml2json(this.inputText, {nativeType: true, compact: true, spaces: 4}));
     }
 }
