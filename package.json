@@ -20,7 +20,7 @@
     "vue": "^2.5.2",
     "vue-json-viewer": "^2.2.21",
     "vue-router": "^3.0.1",
-    "xml2json": "^0.12.0"
+    "xml-js": "^1.6.11"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
