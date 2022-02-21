@@ -8,6 +8,7 @@ class FilesToJson {
 
 
     constructor(inputText) {
+        this.jsonText = '';
         this.inputText = inputText;
     }
 

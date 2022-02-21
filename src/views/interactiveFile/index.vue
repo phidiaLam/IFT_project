@@ -1,7 +1,6 @@
 <template>
   <div id="app-main">
     <navbar></navbar>
-
     <el-row class="change_area">
       <el-col :span="16"> fsdfdsfs</el-col>
       <el-col :span="8">
