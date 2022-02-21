@@ -1,5 +1,5 @@
 import { FilesToJson } from "../FilesToJson";
-import csv from "csvtojson"
+import csv from "papaparse"
 
 export class CsvToJson extends FilesToJson {
 
@@ -9,7 +9,10 @@ export class CsvToJson extends FilesToJson {
 
     async changeToJson() {
         let json;
-        json = await csv().fromString(this.inputText);
+        json = csv.parse(this.inputText, {
+            header: true,
+            dynamicTyping: true
+        });
         this.jsonText = JSON.stringify(json);
     }
 }

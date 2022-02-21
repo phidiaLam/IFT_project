@@ -14,8 +14,9 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "csvtojson": "^2.0.10",
     "element-ui": "^2.15.6",
+    "js-yaml": "^4.1.0",
+    "papaparse": "^5.3.1",
     "vue": "^2.5.2",
     "vue-json-viewer": "^2.2.21",
     "vue-router": "^3.0.1",
