@@ -22,7 +22,6 @@
 import { FilesToJson } from "../../common/util/toJson/FilesToJson";
 import { JsonToJson } from "../../common/util/toJson/filesTo/JsonToJson";
 import { CsvToJson } from "../../common/util/toJson/filesTo/CsvToJson";
-import { SqlToJson } from "../../common/util/toJson/filesTo/SqlToJson";
 import { XmlToJson } from "../../common/util/toJson/filesTo/XmlToJson";
 import { YamlToJson } from "../../common/util/toJson/filesTo/YamlToJson";
 import Navbar from "../../components/navbar.vue";
@@ -64,9 +63,6 @@ export default {
             break;
           case "yaml":
             this.changeTool = new YamlToJson(localStorage.getItem("value"));
-            break;
-          case "sql":
-            this.changeTool = new SqlToJson(localStorage.getItem("value"));
             break;
         }
         // use method in the class to change file data to json format
