@@ -2,7 +2,9 @@
   <div id="app-main">
     <navbar></navbar>
     <el-row class="change_area">
-      <el-col :span="16"> fsdfdsfs</el-col>
+      <el-col :span="16">
+        <el-button @click="toDownload">download</el-button>
+      </el-col>
       <el-col :span="8">
         <div class="show_box">
           <json-viewer
@@ -32,7 +34,7 @@ export default {
   data() {
     return {
       changeTool: new FilesToJson(),
-      jsonFormat: "",
+      jsonFormat: {},
     };
   },
   components: {
@@ -67,7 +69,9 @@ export default {
         }
         // use method in the class to change file data to json format
         this.changeTool.changeToJson().then((_) => {
-          this.jsonFormat = JSON.parse(JSON.stringify(this.changeTool.jsonText));
+          this.jsonFormat = JSON.parse(
+            JSON.stringify(this.changeTool.jsonText)
+          );
           console.log(this.jsonFormat);
         });
 
@@ -78,6 +82,10 @@ export default {
         // if has not value in the local storage, redirect to home page.
         this.$router.push("/");
       }
+    },
+    toDownload() {
+      localStorage.setItem("json", JSON.stringify(this.jsonFormat));
+      this.$router.push("/download");
     },
   },
 };

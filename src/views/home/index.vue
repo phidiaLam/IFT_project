@@ -20,7 +20,6 @@
  
 <script>
 import Navbar from "../../components/navbar.vue";
-import { JsonToJson } from "../../common/util/toJson/filesTo/JsonToJson";
 
 export default {
   name: "Home",

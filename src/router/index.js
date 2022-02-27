@@ -14,6 +14,11 @@ export default new Router({
       path: '/interactiveFile',
       name: 'interactiveFile',
       component: ()=>import("@/views/interactiveFile/index")
+    },
+    {
+      path: '/download',
+      name: 'download',
+      component: ()=>import("@/views/download/index")
     }
   ]
 })

@@ -1,7 +1,6 @@
 // remove Spaces at the beginning and end
 function trimStr(str) {
     if (str) {
-
         return str.replace(/(^\s*)|(\s*$)/g, "");
     }
     return str
