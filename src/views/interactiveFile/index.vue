@@ -3,7 +3,68 @@
     <navbar></navbar>
     <el-row class="change_area">
       <el-col :span="16">
-        <el-button @click="toDownload">download</el-button>
+        <el-row>
+          <div class="form_area">
+            <span>
+              <el-select v-model="operation" placeholder="please select">
+                <el-option
+                  v-for="item in operationOptions"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+              <el-button type="primary">confirm</el-button>
+            </span>
+            <span>
+              <el-button type="success" @click="toDownload">download</el-button>
+            </span>
+          </div>
+        </el-row>
+        <el-row>
+          <el-card class="operation-area">
+            <el-collapse
+              v-for="(operation, index) in operationsStep"
+              :key="index"
+              v-model="activeName"
+              accordion
+            >
+              <el-collapse-item
+                :name="index"
+                class="header"
+                :class="setAll[index].set == true ? 'set' : 'not_set'"
+              >
+                <template slot="title">
+                  <div class="collapse-header">
+                    <div>
+                      {{ operation.name }}
+                    </div>
+                    <div>
+                      <el-button
+                        @click.stop="removeAnnouncement(index)"
+                        icon="el-icon-delete"
+                        class="btn-editor btn-delete"
+                        round
+                      ></el-button>
+                    </div>
+                  </div>
+                </template>
+                <el-card> </el-card>
+              </el-collapse-item>
+            </el-collapse>
+            <div class="mention">
+              <div class="green">
+                The green color indicates completed, which changes the JSON on
+                the right.
+              </div>
+              <div class="red">
+                The red color indicates unfinished, which does not affect the
+                JSON on the right.
+              </div>
+            </div>
+          </el-card>
+        </el-row>
       </el-col>
       <el-col :span="8">
         <div class="show_box">
@@ -33,8 +94,32 @@ export default {
   name: "InteractiveFile",
   data() {
     return {
+      activeName: 0,
       changeTool: new FilesToJson(),
       jsonFormat: {},
+      operation: "round time",
+      operationsStep: [
+        {
+          name: "round",
+        },
+        {
+          name: "upper",
+        },
+      ],
+      operationOptions: [
+        {
+          value: "0",
+          label: "round time",
+        },
+      ],
+      setAll: [
+        {
+          set: true,
+        },
+        {
+          set: false,
+        },
+      ],
     };
   },
   components: {
@@ -76,8 +161,8 @@ export default {
         });
 
         // remove the item in the local storage
-        localStorage.removeItem("value");
-        localStorage.removeItem("type");
+        // localStorage.removeItem("value");
+        // localStorage.removeItem("type");
       } else {
         // if has not value in the local storage, redirect to home page.
         this.$router.push("/");
@@ -94,7 +179,68 @@ export default {
 <style lang="less" scoped>
 #app-main {
   .change_area {
-    margin-top: 5px;
+    margin: 5px 20px 0;
+
+    .el-row {
+      margin-top: 10px;
+
+      .form_area {
+        display: flex;
+        justify-content: space-between;
+        width: 95%;
+      }
+    }
+
+    .operation-area {
+      width: 95%;
+      height: calc(100vh - 148px);
+      border: #5e5252 solid 2px;
+      position: relative;
+
+      /deep/.el-card__body {
+        height: calc(100% - 80px);
+        overflow: scroll;
+
+        .set {
+          .el-collapse-item__header {
+            background-color: rgba(109, 201, 18, 0.5);
+          }
+        }
+        .not_set {
+          .el-collapse-item__header {
+            background-color: rgba(201, 39, 18, 0.5);
+          }
+        }
+
+        .collapse-header {
+          display: flex;
+          justify-content: space-between;
+          width: 100%;
+          margin-right: 10px;
+
+          .btn-delete {
+            color: white;
+            background-color: #f56c6c;
+          }
+        }
+      }
+
+      .mention {
+        position: absolute;
+        width: 566px;
+        left: 50%;
+        bottom: -10px;
+        transform: translate(-50%, -50%);
+
+        .green {
+          background-color: rgba(109, 201, 18, 0.5);
+        }
+        .red {
+          background-color: rgba(201, 39, 18, 0.5);
+        }
+      }
+    }
+
     .show_box {
       border: 3px solid #5e5252;
       border-radius: 5px;
