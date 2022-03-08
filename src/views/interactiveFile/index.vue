@@ -42,7 +42,7 @@
                     </div>
                     <div>
                       <el-button
-                        @click.stop="removeAnnouncement(index)"
+                        @click.stop="removeOperation(index)"
                         icon="el-icon-delete"
                         class="btn-editor btn-delete"
                         round
@@ -50,7 +50,25 @@
                     </div>
                   </div>
                 </template>
-                <el-card> </el-card>
+                <el-card>
+                  <el-select
+                    v-model="operation.keyValue"
+                    placeholder="please select"
+                  >
+                    <el-option
+                      v-for="item in keyValue"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value"
+                    >
+                      <span style="float: left">{{ item.label }}</span>
+                      <span
+                        style="float: right; color: #8492a6; font-size: 13px"
+                        >{{ item.path }}</span
+                      >
+                    </el-option>
+                  </el-select>
+                </el-card>
               </el-collapse-item>
             </el-collapse>
             <div class="mention">
@@ -87,6 +105,7 @@ import { JsonToJson } from "../../common/util/toJson/filesTo/JsonToJson";
 import { CsvToJson } from "../../common/util/toJson/filesTo/CsvToJson";
 import { XmlToJson } from "../../common/util/toJson/filesTo/XmlToJson";
 import { YamlToJson } from "../../common/util/toJson/filesTo/YamlToJson";
+import { getUniqKey } from "../../common/util/jsonKey";
 import Navbar from "../../components/navbar.vue";
 import JsonViewer from "vue-json-viewer";
 
@@ -97,19 +116,29 @@ export default {
       activeName: 0,
       changeTool: new FilesToJson(),
       jsonFormat: {},
+      originalJson: {}, // set when page init, this value will not be changed after init.
       operation: "round time",
       operationsStep: [
         {
           name: "round",
+          keyValue: "All",
         },
         {
           name: "upper",
+          keyValue: "All",
         },
       ],
       operationOptions: [
         {
           value: "0",
           label: "round time",
+        },
+      ],
+      keyValue: [
+        {
+          value: "All",
+          label: "All",
+          path: "All"
         },
       ],
       setAll: [
@@ -157,7 +186,17 @@ export default {
           this.jsonFormat = JSON.parse(
             JSON.stringify(this.changeTool.jsonText)
           );
-          console.log(this.jsonFormat);
+          this.originalJson = JSON.parse(
+            JSON.stringify(this.changeTool.jsonText)
+          );
+          let array = getUniqKey(this.jsonFormat);
+          array.forEach((item) => {
+            this.keyValue.push({
+              value: item.path,
+              label: item.key,
+              path: item.path,
+            });
+          });
         });
 
         // remove the item in the local storage
@@ -168,9 +207,30 @@ export default {
         this.$router.push("/");
       }
     },
+    // jump to the download page
     toDownload() {
       localStorage.setItem("json", JSON.stringify(this.jsonFormat));
       this.$router.push("/download");
+    },
+
+    // remove the operation
+    removeOperation(index) {
+      this.operationsStep.splice(index, 1);
+      this.imgList.splice(index, 1);
+      this.setAll.splice(index, 1);
+    },
+
+    addOperation() {
+      this.operationsStep.push({
+        starTime: "",
+        overTime: "",
+        imgUrl: "",
+        content: "",
+        notice: false,
+      });
+      this.setAll.push({
+        set: false,
+      });
     },
   },
 };
@@ -221,6 +281,7 @@ export default {
           .btn-delete {
             color: white;
             background-color: #f56c6c;
+            border-color: #f56c6c;
           }
         }
       }
