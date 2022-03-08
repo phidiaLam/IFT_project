@@ -1,10 +1,10 @@
 <template>
   <div id="app-main">
     <navbar></navbar>
-    <el-row class="change_area">
+    <el-row class="change-area">
       <el-col :span="16">
         <el-row>
-          <div class="form_area">
+          <div class="form-area">
             <span>
               <el-select v-model="operation" placeholder="please select">
                 <el-option
@@ -15,7 +15,9 @@
                 >
                 </el-option>
               </el-select>
-              <el-button type="primary">confirm</el-button>
+              <el-button type="primary" @click="addOperation"
+                >confirm</el-button
+              >
             </span>
             <span>
               <el-button type="success" @click="toDownload">download</el-button>
@@ -33,7 +35,7 @@
               <el-collapse-item
                 :name="index"
                 class="header"
-                :class="setAll[index].set == true ? 'set' : 'not_set'"
+                :class="setAll[index].set == true ? 'set' : 'not-set'"
               >
                 <template slot="title">
                   <div class="collapse-header">
@@ -50,24 +52,93 @@
                     </div>
                   </div>
                 </template>
-                <el-card>
-                  <el-select
-                    v-model="operation.keyValue"
-                    placeholder="please select"
+                <el-card
+                  v-if="
+                    operation.name === 'upper-all' ||
+                    operation.name === 'lower-all'
+                  "
+                >
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
                   >
-                    <el-option
-                      v-for="item in keyValue"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    >
-                      <span style="float: left">{{ item.label }}</span>
-                      <span
-                        style="float: right; color: #8492a6; font-size: 13px"
-                        >{{ item.path }}</span
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
                       >
-                    </el-option>
-                  </el-select>
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <el-card v-else-if="operation.name === 'replace'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="replace" prop="path">
+                      <el-input
+                        class="replace-input"
+                        v-model="operation.oldStr"
+                        placeholder="support for regular expression, like /^[0-9]*$/"
+                        @blur="checkSet"
+                      ></el-input>
+                      &nbsp; to &nbsp;
+                      <el-input
+                        class="replace-input"
+                        v-model="operation.newStr"
+                        placeholder="please input text"
+                        @blur="checkSet"
+                      ></el-input>
+                    </el-form-item>
+                  </el-form>
                 </el-card>
               </el-collapse-item>
             </el-collapse>
@@ -81,11 +152,14 @@
                 JSON on the right.
               </div>
             </div>
+            <div class="change-btn">
+              <el-button type="primary" @click="clicktest">change</el-button>
+            </div>
           </el-card>
         </el-row>
       </el-col>
       <el-col :span="8">
-        <div class="show_box">
+        <div class="show-box">
           <json-viewer
             :value="jsonFormat"
             :expand-depth="4"
@@ -106,6 +180,7 @@ import { CsvToJson } from "../../common/util/toJson/filesTo/CsvToJson";
 import { XmlToJson } from "../../common/util/toJson/filesTo/XmlToJson";
 import { YamlToJson } from "../../common/util/toJson/filesTo/YamlToJson";
 import { getUniqKey } from "../../common/util/jsonKey";
+import { processOperations } from "../../common/util/operation";
 import Navbar from "../../components/navbar.vue";
 import JsonViewer from "vue-json-viewer";
 
@@ -117,38 +192,30 @@ export default {
       changeTool: new FilesToJson(),
       jsonFormat: {},
       originalJson: {}, // set when page init, this value will not be changed after init.
-      operation: "round time",
-      operationsStep: [
-        {
-          name: "round",
-          keyValue: "All",
-        },
-        {
-          name: "upper",
-          keyValue: "All",
-        },
-      ],
+      operation: "upper-all",
+      operationsStep: [],
       operationOptions: [
         {
-          value: "0",
-          label: "round time",
+          value: "upper-all",
+          label: "upper-all",
+        },
+        {
+          value: "lower-all",
+          label: "lower-all",
+        },
+        {
+          value: "replace",
+          label: "replace",
         },
       ],
       keyValue: [
         {
           value: "All",
           label: "All",
-          path: "All"
+          path: "All",
         },
       ],
-      setAll: [
-        {
-          set: true,
-        },
-        {
-          set: false,
-        },
-      ],
+      setAll: [],
     };
   },
   components: {
@@ -220,17 +287,67 @@ export default {
       this.setAll.splice(index, 1);
     },
 
+    // add the operation
     addOperation() {
-      this.operationsStep.push({
-        starTime: "",
-        overTime: "",
-        imgUrl: "",
-        content: "",
-        notice: false,
-      });
+      switch (this.operation) {
+        case "upper-all":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+          });
+          break;
+        case "lower-all":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+          });
+          break;
+        case "replace":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+            oldStr: "",
+            newStr: "",
+          });
+          break;
+        default:
+          this.operationsStep.push({
+            name: "not operation",
+            space: "",
+          });
+      }
       this.setAll.push({
         set: false,
       });
+      this.checkSet(this.setAll.length - 1);
+    },
+
+    // check is completed or not
+    checkSet(index) {
+      debugger;
+      let complete = true;
+      for (let item in this.operationsStep[index]) {
+        if (
+          this.operationsStep[index][item] == "" ||
+          this.operationsStep[index][item] == null ||
+          this.operationsStep[index][item] == undefined
+        ) {
+          complete = false;
+        }
+      }
+      if (complete) {
+        this.setAll[index].set = true;
+      } else {
+        this.setAll[index].set = false;
+      }
+    },
+
+    clicktest() {
+      let a = processOperations(
+        JSON.parse(JSON.stringify(this.originalJson)),
+        JSON.parse(JSON.stringify(this.operationsStep))
+      );
+      this.jsonFormat = JSON.parse(JSON.stringify(a));
     },
   },
 };
@@ -238,13 +355,13 @@ export default {
  
 <style lang="less" scoped>
 #app-main {
-  .change_area {
+  .change-area {
     margin: 5px 20px 0;
 
     .el-row {
       margin-top: 10px;
 
-      .form_area {
+      .form-area {
         display: flex;
         justify-content: space-between;
         width: 95%;
@@ -266,7 +383,7 @@ export default {
             background-color: rgba(109, 201, 18, 0.5);
           }
         }
-        .not_set {
+        .not-set {
           .el-collapse-item__header {
             background-color: rgba(201, 39, 18, 0.5);
           }
@@ -284,14 +401,16 @@ export default {
             border-color: #f56c6c;
           }
         }
+
+        .replace-input {
+          width: 320px;
+        }
       }
 
       .mention {
         position: absolute;
         width: 566px;
-        left: 50%;
-        bottom: -10px;
-        transform: translate(-50%, -50%);
+        bottom: 5px;
 
         .green {
           background-color: rgba(109, 201, 18, 0.5);
@@ -300,9 +419,15 @@ export default {
           background-color: rgba(201, 39, 18, 0.5);
         }
       }
+
+      .change-btn {
+        position: absolute;
+        right: 10px;
+        bottom: 5px;
+      }
     }
 
-    .show_box {
+    .show-box {
       border: 3px solid #5e5252;
       border-radius: 5px;
       height: calc(100vh - 90px);
