@@ -70,6 +70,32 @@
             </div>
           </el-card></el-col
         >
+        <el-col class="col_area" :span="6">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>To Mysql</span>
+              <el-button class="download_btn" @click="downloadFile('sql')"
+                >Download</el-button
+              >
+            </div>
+            <div v-for="o in 4" :key="o" class="text item">
+              
+            </div>
+          </el-card></el-col
+        >
+        <el-col class="col_area" :span="6">
+          <el-card class="box-card">
+            <div slot="header" class="clearfix">
+              <span>To Html</span>
+              <el-button class="download_btn" @click="downloadFile('html')"
+                >Download</el-button
+              >
+            </div>
+            <div v-for="o in 4" :key="o" class="text item">
+              
+            </div>
+          </el-card></el-col
+        >
       </el-row>
     </div>
   </div>

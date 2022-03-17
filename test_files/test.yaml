@@ -1,0 +1,33 @@
+account:
+    bot: 8143241512
+    admin: 213424101
+    group:
+        groupId: 685114124
+        closeBeta: false
+
+miraiApi:
+    host: 127.0.0.1
+    port:
+        http: 8080
+        ws: 8080
+    authKey: "121351267890"
+    folder:
+
+console:
+    host: 0.0.0.0
+    port: 4235
+
+baiduCloud:
+    enable: true
+    appId: 241234241
+    apiKey: tVdCXeYI7FeEdgwuZzNpPAEX
+    secretKey: 7Td6NbaMVt0tj3qfsdEfwBHI7O 
+
+message:
+    limit:
+        seconds: 10
+        maxCount: 3
+    transToImageLength: 100
+
+setting:
+    offline: false

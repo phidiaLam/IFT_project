@@ -128,14 +128,14 @@
                         class="replace-input"
                         v-model="operation.oldStr"
                         placeholder="support for regular expression, like /^[0-9]*$/"
-                        @blur="checkSet"
+                        @blur="checkSet(index)"
                       ></el-input>
                       &nbsp; to &nbsp;
                       <el-input
                         class="replace-input"
                         v-model="operation.newStr"
                         placeholder="please input text"
-                        @blur="checkSet"
+                        @blur="checkSet(index)"
                       ></el-input>
                     </el-form-item>
                   </el-form>
@@ -267,8 +267,8 @@ export default {
         });
 
         // remove the item in the local storage
-        // localStorage.removeItem("value");
-        // localStorage.removeItem("type");
+        localStorage.removeItem("value");
+        localStorage.removeItem("type");
       } else {
         // if has not value in the local storage, redirect to home page.
         this.$router.push("/");
@@ -283,7 +283,6 @@ export default {
     // remove the operation
     removeOperation(index) {
       this.operationsStep.splice(index, 1);
-      this.imgList.splice(index, 1);
       this.setAll.splice(index, 1);
     },
 
@@ -324,7 +323,7 @@ export default {
 
     // check is completed or not
     checkSet(index) {
-      debugger;
+      debugger
       let complete = true;
       for (let item in this.operationsStep[index]) {
         if (
@@ -343,9 +342,15 @@ export default {
     },
 
     clicktest() {
+      let operationsStep = [];
+      this.operationsStep.forEach((item, index) => {
+        if(this.setAll[index].set) {
+          operationsStep.push(JSON.parse(JSON.stringify(item)));
+        }
+      })
       let a = processOperations(
         JSON.parse(JSON.stringify(this.originalJson)),
-        JSON.parse(JSON.stringify(this.operationsStep))
+        JSON.parse(JSON.stringify(operationsStep))
       );
       this.jsonFormat = JSON.parse(JSON.stringify(a));
     },
