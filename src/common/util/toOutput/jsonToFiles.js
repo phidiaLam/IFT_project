@@ -30,6 +30,10 @@ class JsonToFiles {
             window.URL.revokeObjectURL(blob);
         }, 100);
     }
+
+    downloadMultiFile(jsonObj, format = "csv") {
+        
+    }
 }
 
 export { JsonToFiles };

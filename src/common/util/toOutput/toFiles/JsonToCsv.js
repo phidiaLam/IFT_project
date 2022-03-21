@@ -1,9 +1,10 @@
 import { JsonToFiles } from "../JsonToFiles";
 import csv from "papaparse"
+import { singleArray, multiArray } from "../../toStructFormat"
 
 export class JsonToCsv extends JsonToFiles {
 
-    constructor(inputText) {
+    constructor(inputText, settings) {
         super(inputText)
         this.jsObject = this.changeToStruct()
         console.log(this.jsObject)

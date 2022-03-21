@@ -3,8 +3,15 @@ function singleArray(object) {
 
 }
 
+// Passing in a JSON format object and return json with multiple array.
+function multiArray(jsonObj) {
+    let mulitArrayObj = {}
+    handleToMulti(JSON.parse(JSON.stringify(jsonObj)), mulitArrayObj);
+    return mulitArrayObj
+}
+
 // process mult-level object to multiple arrays, and it will be used to convert to a multiple file
-function multiArray(jsonObj, mulitArrayObj, parentPath = null, parentArray = -1) {
+function handleToMulti(jsonObj, mulitArrayObj, parentPath = null, parentArray = -1) {
     // Check if it's an array
     let isArray = false;
     if (jsonObj instanceof Array) {
