@@ -36,11 +36,11 @@ function handleToMulti(jsonObj, mulitArrayObj, parentPath = null, parentArray = 
 
         // Recursively handle different cases
         if (jsonObj[key] instanceof Array) {
-            jsonObj[key] = multiArray(jsonObj[key], mulitArrayObj, path, 2) + "(table)"
+            jsonObj[key] = handleToMulti(jsonObj[key], mulitArrayObj, path, 2) + "(table)"
         } else if (typeof (jsonObj[key]) == 'object' && parentArray < 0) {
-            jsonObj[key] = multiArray(jsonObj[key], mulitArrayObj, path) + "(table)"
+            jsonObj[key] = handleToMulti(jsonObj[key], mulitArrayObj, path) + "(table)"
         } else if (typeof (jsonObj[key]) == 'object' && parentArray >= 0) {
-            jsonObj[key] = multiArray(jsonObj[key], mulitArrayObj, path, parentArray)
+            jsonObj[key] = handleToMulti(jsonObj[key], mulitArrayObj, path, parentArray)
         }
     }
 

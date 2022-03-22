@@ -184,9 +184,10 @@ export default {
           justify-content: space-around;
 
           .card-label {
-            width: 150px;
+            width: 120px;
             text-align: left;
             margin-right: 10px;
+            display: inline-flex;
           }
 
           .input-area {
