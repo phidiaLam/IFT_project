@@ -6,52 +6,18 @@ export class JsonToCsv extends JsonToFiles {
 
     constructor(inputText, settings) {
         super(inputText)
-        this.jsObject = this.changeToStruct()
-        console.log(this.jsObject)
-        this.changeToOutput()
-        this.downloadFile('csv');
-    }
-
-    // Process files into structured file form If it is satisfies
-    changeToStruct() {
-        let title;
-        let array;
-        title = this.getTitle(this.jsObject)
-        array = this.getArray(this.jsObject)
-        return array;
-    }
-
-    getArray(object) {
-        let array;
-        if (!(object instanceof Array) && Object.keys(object).length == 1) {
-            Object.keys(object).forEach(name => {
-                array = this.getArray(JSON.parse(JSON.stringify(object[name])));
-            })
+        if(settings.file == "single") {
+            let handledData = singleArray(this.jsObject)
+            this.downloadMultiFile(handledData, 'csv', settings);
         } else {
-            array = object;
+            let handledData = multiArray(this.jsObject)
+            this.downloadMultiFile(handledData, 'csv', settings);
         }
-        return array;
     }
 
-    getTitle(object) {
-        let title;
-        if (!(object instanceof Array) && Object.keys(object).length == 1) {
-            Object.keys(object).forEach(name => {
-                let value = this.getTitle(JSON.parse(JSON.stringify(object[name])));
-
-                if (value === '') {
-                    title = name;
-                } else {
-                    title = name + "_" + value;
-                }
-            })
-        } else {
-            title = '';
+    downloadMultiFile(jsonObj, format, settings) {
+        for(let key in jsonObj) {
+            
         }
-        return title;
-    }
-
-    changeToOutput() {
-        this.outputText = csv.unparse(this.jsObject);
     }
 }

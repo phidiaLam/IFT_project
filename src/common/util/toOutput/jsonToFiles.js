@@ -32,7 +32,7 @@ class JsonToFiles {
     }
 
     downloadMultiFile(jsonObj, format = "csv") {
-        
+        console.log("Not complete yet")
     }
 }
 

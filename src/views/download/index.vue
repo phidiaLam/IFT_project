@@ -1,9 +1,9 @@
 <template>
   <div id="app-main">
     <navbar></navbar>
-    <div class="download_area">
-      <el-row class="row_area">
-        <el-col class="col_area" :span="6">
+    <div class="download-area">
+      <el-row class="row-area">
+        <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>To CSV</span>
@@ -11,12 +11,26 @@
                 >Download</el-button
               >
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              
+            <div class="col-body">
+              <div>
+                <span class="card-label">Number of Files</span>
+
+                <el-radio v-model="csvSettings.file" label="single"
+                  >Single File</el-radio
+                >
+                <el-radio v-model="csvSettings.file" label="multiple"
+                  >Multiple File</el-radio
+                >
+              </div>
+              <div>
+                <span class="card-label">Delimiter</span>
+
+                <el-input v-model="csvSettings.delimiter" placeholder="Please input a symbol" class = "input-area"></el-input>
+              </div>
             </div>
           </el-card></el-col
         >
-        <el-col class="col_area" :span="6">
+        <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>To Json</span>
@@ -24,12 +38,9 @@
                 >Download</el-button
               >
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              
-            </div>
-          </el-card></el-col
-        >
-        <el-col class="col_area" :span="6">
+            <div class="col-body"></div> </el-card
+        ></el-col>
+        <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>To Xml</span>
@@ -37,12 +48,9 @@
                 >Download</el-button
               >
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              
-            </div>
-          </el-card></el-col
-        >
-        <el-col class="col_area" :span="6">
+            <div class="col-body"></div></el-card
+        ></el-col>
+        <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>To Markdown</span>
@@ -50,14 +58,10 @@
                 >Download</el-button
               >
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              
-            </div>
-          </el-card></el-col
-        >
-      </el-row>
-      <el-row class="row_area">
-        <el-col class="col_area" :span="6">
+            <div class="col-body"></div> </el-card
+        ></el-col>
+
+        <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>To Yaml</span>
@@ -65,12 +69,10 @@
                 >Download</el-button
               >
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              
-            </div>
+            <div class="col-body">sdfsfdf</div>
           </el-card></el-col
         >
-        <el-col class="col_area" :span="6">
+        <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>To Mysql</span>
@@ -78,12 +80,9 @@
                 >Download</el-button
               >
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              
-            </div>
-          </el-card></el-col
-        >
-        <el-col class="col_area" :span="6">
+            <div class="col-body"></div> </el-card
+        ></el-col>
+        <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
               <span>To Html</span>
@@ -91,11 +90,8 @@
                 >Download</el-button
               >
             </div>
-            <div v-for="o in 4" :key="o" class="text item">
-              
-            </div>
-          </el-card></el-col
-        >
+            <div class="col-body"></div> </el-card
+        ></el-col>
       </el-row>
     </div>
   </div>
@@ -116,6 +112,10 @@ export default {
   data() {
     return {
       show: "",
+      csvSettings: {
+        file: "single",
+        delimiter: ",",
+      },
     };
   },
   components: {
@@ -131,7 +131,7 @@ export default {
     downloadFile(fileFormat) {
       switch (fileFormat) {
         case "csv":
-          new JsonToCsv(this.show);
+          new JsonToCsv(this.show, this.csvSettings);
           break;
         case "json":
           new JsonToJson(this.show);
@@ -159,13 +159,14 @@ export default {
  
 <style lang="less" scoped>
 #app-main {
-  .download_area {
+  .download-area {
     margin: 0px 30px;
 
-    .row_area {
+    .row-area {
       margin-top: 20px;
 
-      .col_area {
+      .col-area {
+        margin-top: 20px;
         padding: 0 20px;
 
         .download_btn {
@@ -174,6 +175,23 @@ export default {
           margin-top: -5px;
           width: 80px;
           height: 30px;
+        }
+
+        .col-body {
+          height: 200px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-around;
+
+          .card-label {
+            width: 150px;
+            text-align: left;
+            margin-right: 10px;
+          }
+
+          .input-area {
+            width: 300px;
+          }
         }
       }
     }

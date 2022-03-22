@@ -32,6 +32,8 @@ function singleOperation(jsonObj, operation, parentPath = null, isOperationArea 
             newJsonObj[key] = singleLineBoolean(jsonObj[key], operation)
         } else if (typeof (jsonObj[key]) == 'number' && isOperation) {
             newJsonObj[key] = singleLineNumber(jsonObj[key], operation)
+        } else if (jsonObj[key] == null) {
+            newJsonObj[key] = null;
         } else if (typeof (jsonObj[key]) == 'object') {
             newJsonObj[key] = JSON.parse(JSON.stringify(singleOperation(jsonObj[key], operation, path, isOperation)));
         } else {
