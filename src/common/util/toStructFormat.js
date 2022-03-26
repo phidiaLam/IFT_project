@@ -10,6 +10,7 @@ function handleToSingle(jsonObj, parentNode = null, parentArray = -1) {
     let isArray = false;
     if (jsonObj instanceof Array) {
         isArray = true;
+        parentArray = 2;
     }
 
     // Determine which parent element is an array
@@ -17,28 +18,33 @@ function handleToSingle(jsonObj, parentNode = null, parentArray = -1) {
         parentArray -= 1
     }
     let newObject;
+    let changedObject;
     // Iterate over each child element
     for (let key in jsonObj) {
         // Recursively handle different cases
         if (jsonObj[key] instanceof Array) {
-            newObject = handleToSingle(jsonObj[key], mulitArrayObj, key, 2)
+            newObject = handleToSingle(jsonObj[key], key, parentArray)
+            if (parentNode != null) {
+                jsonObj[parentNode + "." + key] = JSON.parse(JSON.stringify(jsonObj[key]));
+                delete jsonObj[key];
+            }
         } else if (typeof (jsonObj[key]) == 'object' && parentArray == 1) {
-            newObject = handleToSingle(jsonObj[key], mulitArrayObj, parentNode, parentArray)
+            newObject = handleToSingle(jsonObj[key], parentNode, parentArray)
         } else if (typeof (jsonObj[key]) == 'object' && parentArray <= 0) {
-            newObject = handleToSingle(jsonObj[key], mulitArrayObj, key, parentArray)
+            newObject = handleToSingle(jsonObj[key], key, parentArray)
             for (let keyNew in newObject) {
                 jsonObj[keyNew] = JSON.parse(JSON.stringify(newObject[keyNew]))
             }
             delete jsonObj[key]
-        }  else {
-            jsonObj[parentNode+key]=JSON.parse(JSON.stringify(jsonObj[key]));
-            delete jsonObj[key];
-        } 
+        } else {
+            // Add the root node
+            if (parentNode != null) {
+                jsonObj[parentNode + "." + key] = JSON.parse(JSON.stringify(jsonObj[key]));
+                delete jsonObj[key];
+            }
+        }
     }
-
-    let changedObject;
-    
-
+    changedObject = JSON.parse(JSON.stringify(jsonObj))
     return changedObject;
 }
 
@@ -55,6 +61,7 @@ function handleToMulti(jsonObj, mulitArrayObj, parentPath = null, parentArray = 
     let isArray = false;
     if (jsonObj instanceof Array) {
         isArray = true;
+        parentArray = 2;
     }
 
     // Determine which parent element is an array
@@ -75,7 +82,7 @@ function handleToMulti(jsonObj, mulitArrayObj, parentPath = null, parentArray = 
 
         // Recursively handle different cases
         if (jsonObj[key] instanceof Array) {
-            jsonObj[key] = handleToMulti(jsonObj[key], mulitArrayObj, path, 2) + "(table)"
+            jsonObj[key] = handleToMulti(jsonObj[key], mulitArrayObj, path, parentArray) + "(table)"
         } else if (typeof (jsonObj[key]) == 'object' && parentArray <= 0) {
             jsonObj[key] = handleToMulti(jsonObj[key], mulitArrayObj, path) + "(table)"
         } else if (typeof (jsonObj[key]) == 'object' && parentArray > 0) {
@@ -94,8 +101,8 @@ function handleToMulti(jsonObj, mulitArrayObj, parentPath = null, parentArray = 
     } else if (parentArray < 0) {
         let arr = [];
         arr.push(jsonObj)
-        
-        if(mulitArrayObj[parentPath]) {
+
+        if (mulitArrayObj[parentPath]) {
             mulitArrayObj[parentPath] = mulitArrayObj[parentPath].concat(arr)
         } else {
             mulitArrayObj[parentPath] = arr;
