@@ -26,20 +26,19 @@ export class JsonToHtml extends JsonToFiles {
             border: 1px solid black;
         }
         </style>`
+        console.log(htmlData)
         this.downloadWithSingleTable(htmlData);
     }
 
     // handle different settings
     handleSettings(settings) {
-        let tableHTML;
+        let tableHTML="";
         if (!settings.structured) {
             tableHTML = tableHTML + generateHTMLTable(this.jsObject)
         } else {
             if (settings.table == "single") {
                 let flattedJson = singleArray(this.jsObject);
                 tableHTML = this.createTable(flattedJson)
-
-                console.log(tableHTML)
             } else {
                 let flattedJson = multiArray(this.jsObject);
                 for (let key in flattedJson) {
