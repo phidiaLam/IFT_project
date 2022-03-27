@@ -1,51 +1,49 @@
 // process multi-level object to single array, and it will be used to convert to a single file
 function singleArray(jsonObj) {
-    let handledJson = handleToSingle(jsonObj);
+    let handledJson = [];
+    handleToSingle(jsonObj, handledJson);
     return handledJson;
 }
 
 // process mult-level object to single arrays, and it will be used to convert to a single file
-function handleToSingle(jsonObj, parentNode = null, parentArray = -1) {
-    // Check if it's an array
+function handleToSingle(jsonObj, handledJson, parentPath = null, parentArrayLevel = -1, parentArrayNode = -1) {
     let isArray = false;
     if (jsonObj instanceof Array) {
         isArray = true;
-        parentArray = 2;
+        parentArrayLevel = 2
     }
-
-    // Determine which parent element is an array
-    if (parentArray >= 0) {
-        parentArray -= 1
+    if (parentArrayLevel >= 0) {
+        parentArrayLevel -= 1
     }
-    let newObject;
-    let changedObject;
-    // Iterate over each child element
     for (let key in jsonObj) {
-        // Recursively handle different cases
-        if (jsonObj[key] instanceof Array) {
-            newObject = handleToSingle(jsonObj[key], key, parentArray)
-            if (parentNode != null) {
-                jsonObj[parentNode + "." + key] = JSON.parse(JSON.stringify(jsonObj[key]));
-                delete jsonObj[key];
-            }
-        } else if (typeof (jsonObj[key]) == 'object' && parentArray == 1) {
-            newObject = handleToSingle(jsonObj[key], parentNode, parentArray)
-        } else if (typeof (jsonObj[key]) == 'object' && parentArray <= 0) {
-            newObject = handleToSingle(jsonObj[key], key, parentArray)
-            for (let keyNew in newObject) {
-                jsonObj[keyNew] = JSON.parse(JSON.stringify(newObject[keyNew]))
-            }
-            delete jsonObj[key]
+        let path;
+        if (parentPath == null) {
+            path = key;
+        } else if(isArray) {
+            path = parentPath;
         } else {
-            // Add the root node
-            if (parentNode != null) {
-                jsonObj[parentNode + "." + key] = JSON.parse(JSON.stringify(jsonObj[key]));
-                delete jsonObj[key];
+            path = parentPath + "." + key;
+        }
+        if (typeof (jsonObj[key]) == 'object' && parentArrayLevel == 1) {
+            debugger
+            handleToSingle(jsonObj[key], handledJson, path, parentArrayLevel, key);
+        } else if (typeof (jsonObj[key]) == 'object' && parentArrayLevel != 1) {
+            handleToSingle(jsonObj[key], handledJson, path, parentArrayLevel);
+        } else {
+            if(parentArrayNode != -1) {
+                if (handledJson[parentArrayNode] == undefined) {
+                    handledJson.push({});
+                }
+                handledJson[parentArrayNode][path] = jsonObj[key]
+            } else {
+                if (handledJson[0] == undefined) {
+                    handledJson.push({});
+                }
+                handledJson[0][path] = jsonObj[key]
             }
         }
     }
-    changedObject = JSON.parse(JSON.stringify(jsonObj))
-    return changedObject;
+    return ;
 }
 
 // Passing in a JSON format object and return json with multiple array.
