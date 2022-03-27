@@ -25,11 +25,14 @@
               <div>
                 <span class="card-label">Delimiter</span>
 
-                <el-input v-model="csvSettings.delimiter" placeholder="Please input a symbol" class = "input-area"></el-input>
+                <el-input
+                  v-model="csvSettings.delimiter"
+                  placeholder="Please input a symbol"
+                  class="input-area"
+                ></el-input>
               </div>
-            </div>
-          </el-card></el-col
-        >
+            </div> </el-card
+        ></el-col>
         <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -90,8 +93,24 @@
                 >Download</el-button
               >
             </div>
-            <div class="col-body"></div> </el-card
-        ></el-col>
+            <div class="col-body">
+              <div>
+                <span class="card-label">Structured File</span>
+                <el-switch v-model="htmlSettings.structured"> </el-switch>
+              </div>
+              <div v-if="htmlSettings.structured">
+                <span class="card-label">Number of Tables</span>
+
+                <el-radio v-model="htmlSettings.table" label="single"
+                  >Single File</el-radio
+                >
+                <el-radio v-model="htmlSettings.table" label="multiple"
+                  >Multiple File</el-radio
+                >
+              </div>
+            </div>
+          </el-card></el-col
+        >
       </el-row>
     </div>
   </div>
@@ -116,6 +135,10 @@ export default {
         file: "single",
         delimiter: ",",
       },
+      htmlSettings: {
+        structured: false,
+        table: "single",
+      },
     };
   },
   components: {
@@ -137,7 +160,7 @@ export default {
           new JsonToJson(this.show);
           break;
         case "html":
-          new JsonToHtml(this.show);
+          new JsonToHtml(this.show, this.htmlSettings);
           break;
         case "md":
           new JsonToMarkdown(this.show);

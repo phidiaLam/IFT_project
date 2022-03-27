@@ -25,7 +25,6 @@ function handleToSingle(jsonObj, handledJson, parentPath = null, parentArrayLeve
             path = parentPath + "." + key;
         }
         if (typeof (jsonObj[key]) == 'object' && parentArrayLevel == 1) {
-            debugger
             handleToSingle(jsonObj[key], handledJson, path, parentArrayLevel, key);
         } else if (typeof (jsonObj[key]) == 'object' && parentArrayLevel != 1) {
             handleToSingle(jsonObj[key], handledJson, path, parentArrayLevel);

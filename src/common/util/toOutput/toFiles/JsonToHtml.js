@@ -1,13 +1,14 @@
 import { JsonToFiles } from "../JsonToFiles";
-import {
-    generateHTMLTable,
-} from 'json5-to-table'
+import { generateHTMLTable } from 'json5-to-table'
+import { singleArray, multiArray } from "../../toStructFormat"
 
 export class JsonToHtml extends JsonToFiles {
 
-    constructor(inputText) {
+    constructor(inputText, settings) {
         super(inputText)
-        let tableHTML = `<!DOCTYPE html>
+        let tableHTML = this.handleSettings(settings);
+
+        let htmlData = `<!DOCTYPE html>
         <html lang="en">
         <head>
             <meta charset="UTF-8">
@@ -15,9 +16,9 @@ export class JsonToHtml extends JsonToFiles {
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <title>Document</title>
         </head>
-        <body>`
-        tableHTML = tableHTML + generateHTMLTable(this.jsObject)
-        tableHTML = tableHTML + `</body>
+        <body>
+        ${tableHTML}
+        </body>
         </html>
         
         <style>
@@ -25,9 +26,58 @@ export class JsonToHtml extends JsonToFiles {
             border: 1px solid black;
         }
         </style>`
+        this.downloadWithSingleTable(htmlData);
+    }
 
-        console.log(tableHTML)
-        this.downloadWithSingleTable(tableHTML);
+    // handle different settings
+    handleSettings(settings) {
+        let tableHTML;
+        if (!settings.structured) {
+            tableHTML = tableHTML + generateHTMLTable(this.jsObject)
+        } else {
+            if (settings.table == "single") {
+                let flattedJson = singleArray(this.jsObject);
+                tableHTML = this.createTable(flattedJson)
+
+                console.log(tableHTML)
+            } else {
+                let flattedJson = multiArray(this.jsObject);
+                for (let key in flattedJson) {
+                    tableHTML += `<div id="${key}">${key}</div>`
+                    let singleTable = this.createTable(flattedJson[key]);
+                    tableHTML += singleTable;
+                    tableHTML += "<br><br>";
+                }
+            }
+        }
+        return tableHTML
+    }
+
+    createTable(jsonObj) {
+        let table = "<table>";
+        table += "<thead><tr>";
+        for(let key in jsonObj[0]) {
+            table += "<th>" + key + "</th>";
+        }
+        table += "</thead></tr><tbody>";
+        for(let array in jsonObj) {
+            table += "<tr>";
+            for(let key in jsonObj[0]) {
+                if(jsonObj[array][key] != undefined) {
+                    if(JSON.stringify(jsonObj[array][key]).indexOf("(table)") != -1) {
+                        
+                        table += `<td> <a href="#${jsonObj[array][key].replace("(table)", "")}">${jsonObj[array][key]} </td>`;
+                    } else {
+                        table += "<td>" + jsonObj[array][key] + "</td>";
+                    }
+                } else {
+                    table += "<td></td>";
+                }
+            }
+            table += "</tr>";
+        }
+        table += "</tbody></table>";
+        return table;
     }
 
     downloadWithSingleTable(tableHTML) {
