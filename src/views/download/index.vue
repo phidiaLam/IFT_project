@@ -41,8 +41,24 @@
                 >Download</el-button
               >
             </div>
-            <div class="col-body"></div> </el-card
-        ></el-col>
+            <div class="col-body">
+              <div>
+                <span class="card-label">Structured File</span>
+                <el-switch v-model="jsonSettings.structured"> </el-switch>
+              </div>
+              <div v-if="jsonSettings.structured">
+                <span class="card-label">Number of Files</span>
+
+                <el-radio v-model="jsonSettings.file" label="single"
+                  >Single File</el-radio
+                >
+                <el-radio v-model="jsonSettings.file" label="multiple"
+                  >Multiple Files</el-radio
+                >
+              </div>
+            </div>
+          </el-card></el-col
+        >
         <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -51,8 +67,24 @@
                 >Download</el-button
               >
             </div>
-            <div class="col-body"></div></el-card
-        ></el-col>
+            <div class="col-body">
+              <div>
+                <span class="card-label">Structured File</span>
+                <el-switch v-model="xmlSettings.structured"> </el-switch>
+              </div>
+              <div v-if="xmlSettings.structured">
+                <span class="card-label">Number of Files</span>
+
+                <el-radio v-model="xmlSettings.file" label="single"
+                  >Single File</el-radio
+                >
+                <el-radio v-model="xmlSettings.file" label="multiple"
+                  >Multiple Files</el-radio
+                >
+              </div>
+            </div></el-card
+          ></el-col
+        >
         <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -71,10 +103,10 @@
                 <el-radio v-model="mdSettings.table" label="multiple"
                   >Multiple File</el-radio
                 >
-              </div>  
-            </div> </el-card
-        ></el-col>
-
+              </div>
+            </div>
+          </el-card></el-col
+        >
         <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -83,7 +115,22 @@
                 >Download</el-button
               >
             </div>
-            <div class="col-body">sdfsfdf</div>
+            <div class="col-body">
+              <div>
+                <span class="card-label">Structured File</span>
+                <el-switch v-model="yamlSettings.structured"> </el-switch>
+              </div>
+              <div v-if="yamlSettings.structured">
+                <span class="card-label">Number of Files</span>
+
+                <el-radio v-model="yamlSettings.file" label="single"
+                  >Single File</el-radio
+                >
+                <el-radio v-model="yamlSettings.file" label="multiple"
+                  >Multiple Files</el-radio
+                >
+              </div>
+            </div>
           </el-card></el-col
         >
         <el-col class="col-area" :span="12">
@@ -113,10 +160,10 @@
                 <span class="card-label">Number of Tables</span>
 
                 <el-radio v-model="htmlSettings.table" label="single"
-                  >Single File</el-radio
+                  >Single Table</el-radio
                 >
                 <el-radio v-model="htmlSettings.table" label="multiple"
-                  >Multiple File</el-radio
+                  >Multiple Tables</el-radio
                 >
               </div>
             </div>
@@ -152,7 +199,19 @@ export default {
       },
       mdSettings: {
         table: "single",
-      }
+      },
+      jsonSettings: {
+        structured: false,
+        file: "single",
+      },
+      xmlSettings: {
+        structured: false,
+        file: "single",
+      },
+      yamlSettings: {
+        structured: false,
+        file: "single",
+      },
     };
   },
   components: {
@@ -171,7 +230,7 @@ export default {
           new JsonToCsv(this.show, this.csvSettings);
           break;
         case "json":
-          new JsonToJson(this.show);
+          new JsonToJson(this.show, this.jsonSettings);
           break;
         case "html":
           new JsonToHtml(this.show, this.htmlSettings);
@@ -183,10 +242,10 @@ export default {
           new JsonToMysql(this.show);
           break;
         case "xml":
-          new JsonToXml(this.show);
+          new JsonToXml(this.show, this.xmlSettings);
           break;
         case "yaml":
-          new JsonToYaml(this.show);
+          new JsonToYaml(this.show, this.yamlSettings);
           break;
       }
     },
