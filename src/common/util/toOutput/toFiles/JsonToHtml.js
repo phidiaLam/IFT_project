@@ -27,7 +27,7 @@ export class JsonToHtml extends JsonToFiles {
         }
         </style>`
         console.log(htmlData)
-        this.downloadWithSingleTable(htmlData);
+        this.downloadWithHtmlTable(htmlData);
     }
 
     // handle different settings
@@ -79,7 +79,7 @@ export class JsonToHtml extends JsonToFiles {
         return table;
     }
 
-    downloadWithSingleTable(tableHTML) {
+    downloadWithHtmlTable(tableHTML) {
         const aTag = document.createElement("a");
         const blob = new Blob([tableHTML]);
 

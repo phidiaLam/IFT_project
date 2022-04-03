@@ -61,7 +61,18 @@
                 >Download</el-button
               >
             </div>
-            <div class="col-body"></div> </el-card
+            <div class="col-body">
+              <div>
+                <span class="card-label">Number of Tables</span>
+
+                <el-radio v-model="mdSettings.table" label="single"
+                  >Single File</el-radio
+                >
+                <el-radio v-model="mdSettings.table" label="multiple"
+                  >Multiple File</el-radio
+                >
+              </div>  
+            </div> </el-card
         ></el-col>
 
         <el-col class="col-area" :span="12">
@@ -139,6 +150,9 @@ export default {
         structured: false,
         table: "single",
       },
+      mdSettings: {
+        table: "single",
+      }
     };
   },
   components: {
@@ -163,7 +177,7 @@ export default {
           new JsonToHtml(this.show, this.htmlSettings);
           break;
         case "md":
-          new JsonToMarkdown(this.show);
+          new JsonToMarkdown(this.show, this.mdSettings);
           break;
         case "sql":
           new JsonToMysql(this.show);
