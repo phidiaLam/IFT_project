@@ -43,7 +43,7 @@
             </div>
             <div class="col-body">
               <div>
-                <span class="card-label">Structured File</span>
+                <span class="card-label">Structured Format</span>
                 <el-switch v-model="jsonSettings.structured"> </el-switch>
               </div>
               <div v-if="jsonSettings.structured">
@@ -69,7 +69,7 @@
             </div>
             <div class="col-body">
               <div>
-                <span class="card-label">Structured File</span>
+                <span class="card-label">Structured Format</span>
                 <el-switch v-model="xmlSettings.structured"> </el-switch>
               </div>
               <div v-if="xmlSettings.structured">
@@ -117,7 +117,7 @@
             </div>
             <div class="col-body">
               <div>
-                <span class="card-label">Structured File</span>
+                <span class="card-label">Structured Format</span>
                 <el-switch v-model="yamlSettings.structured"> </el-switch>
               </div>
               <div v-if="yamlSettings.structured">
@@ -141,8 +141,20 @@
                 >Download</el-button
               >
             </div>
-            <div class="col-body"></div> </el-card
-        ></el-col>
+            <div class="col-body">
+              <div>
+                <span class="card-label">Number of Files</span>
+
+                <el-radio v-model="sqlSettings.table" label="single"
+                  >Single File</el-radio
+                >
+                <el-radio v-model="sqlSettings.table" label="multiple"
+                  >Multiple File</el-radio
+                >
+              </div>
+            </div>
+          </el-card></el-col
+        >
         <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
@@ -153,7 +165,7 @@
             </div>
             <div class="col-body">
               <div>
-                <span class="card-label">Structured File</span>
+                <span class="card-label">Structured Format</span>
                 <el-switch v-model="htmlSettings.structured"> </el-switch>
               </div>
               <div v-if="htmlSettings.structured">
@@ -192,6 +204,9 @@ export default {
       csvSettings: {
         file: "single",
         delimiter: ",",
+      },
+      sqlSettings: {
+        table: "single",
       },
       htmlSettings: {
         structured: false,
@@ -239,7 +254,7 @@ export default {
           new JsonToMarkdown(this.show, this.mdSettings);
           break;
         case "sql":
-          new JsonToMysql(this.show);
+          new JsonToMysql(this.show, this.sqlSettings);
           break;
         case "xml":
           new JsonToXml(this.show, this.xmlSettings);
