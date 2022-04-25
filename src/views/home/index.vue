@@ -25,6 +25,7 @@ export default {
   name: "Home",
   data() {
     return {
+      formats: ["csv","json","xml","yaml"]
     };
   },
   components: {
@@ -34,6 +35,14 @@ export default {
     importData(file) {
       let suffixIndex = file.name.lastIndexOf(".");
       let fileSuffix = file.name.substr(suffixIndex + 1);
+      if (!this.formats.includes(fileSuffix.toLowerCase())) {
+        this.$message({
+          message: `The file format "${fileSuffix}" is not accepted`,
+          type: 'warning',
+          offset: 80
+        });
+        return 
+      }
       localStorage.setItem("type", fileSuffix);
       const reader = new FileReader();
       reader.onload = (res) => {

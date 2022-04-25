@@ -54,8 +54,8 @@
                 </template>
                 <el-card
                   v-if="
-                    operation.name === 'upper-all' ||
-                    operation.name === 'lower-all'
+                    operation.name === 'upper(string)' ||
+                    operation.name === 'lower(string)'
                   "
                 >
                   <el-form
@@ -88,7 +88,7 @@
                     </el-form-item>
                   </el-form>
                 </el-card>
-                <el-card v-else-if="operation.name === 'replace'">
+                <el-card v-else-if="operation.name === 'replace(string)'">
                   <el-form
                     :model="operation"
                     label-width="100px"
@@ -140,6 +140,288 @@
                     </el-form-item>
                   </el-form>
                 </el-card>
+                <el-card v-else-if="operation.name === 'delete(string)'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="delete" prop="path">
+                      <el-input
+                        class="replace-input"
+                        v-model="operation.str"
+                        placeholder="support for regular expression, like /^[0-9]*$/"
+                        @blur="checkSet(index)"
+                      ></el-input>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <el-card v-else-if="operation.name === 'convert(boolean)'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <el-card v-else-if="operation.name === 'false(boolean)'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <el-card v-else-if="operation.name === 'true(boolean)'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <el-card v-else-if="operation.name === 'round(number)'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="method" prop="path">
+                      <el-select
+                        v-model="operation.roundMethod"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in roundMethodValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <el-card v-else-if="operation.name === 'add(number)'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="add number" prop="addNumber">
+                      <el-input-number
+                        class="replace-input"
+                        v-model="operation.num"
+                        :precision="1"
+                        :step="0.1"
+                        @blur="checkSet(index)"
+                      ></el-input-number>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
+                <el-card v-else-if="operation.name === 'minus(number)'">
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="field" prop="path">
+                      <el-select
+                        v-model="operation.path"
+                        placeholder="please select"
+                      >
+                        <el-option
+                          v-for="item in keyValue"
+                          :key="item.value"
+                          :label="item.label"
+                          :value="item.value"
+                        >
+                          <span style="float: left">{{ item.label }}</span>
+                          <span
+                            style="
+                              float: right;
+                              color: #8492a6;
+                              font-size: 13px;
+                            "
+                            >{{ item.path }}</span
+                          >
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-form>
+                  <el-form
+                    :model="operation"
+                    label-width="100px"
+                    label-position="left"
+                  >
+                    <el-form-item label="minus number" prop="minusNumber">
+                      <el-input-number
+                        class="replace-input"
+                        v-model="operation.num"
+                        :precision="1"
+                        :step="0.1"
+                        @blur="checkSet(index)"
+                      ></el-input-number>
+                    </el-form-item>
+                  </el-form>
+                </el-card>
               </el-collapse-item>
             </el-collapse>
             <div class="mention">
@@ -153,7 +435,9 @@
               </div>
             </div>
             <div class="change-btn">
-              <el-button type="primary" @click="clicktest">change</el-button>
+              <el-button type="primary" @click="handleOperations"
+                >change</el-button
+              >
             </div>
           </el-card>
         </el-row>
@@ -192,20 +476,48 @@ export default {
       changeTool: new FilesToJson(),
       jsonFormat: {},
       originalJson: {}, // set when page init, this value will not be changed after init.
-      operation: "upper-all",
+      operation: "upper(string)",
       operationsStep: [],
       operationOptions: [
         {
-          value: "upper-all",
-          label: "upper-all",
+          value: "upper(string)",
+          label: "upper(string)",
         },
         {
-          value: "lower-all",
-          label: "lower-all",
+          value: "lower(string)",
+          label: "lower(string)",
         },
         {
-          value: "replace",
-          label: "replace",
+          value: "replace(string)",
+          label: "replace(string)",
+        },
+        {
+          value: "delete(string)",
+          label: "delete(string)",
+        },
+        {
+          value: "convert(boolean)",
+          label: "convert(boolean)",
+        },
+        {
+          value: "false(boolean)",
+          label: "false(boolean)",
+        },
+        {
+          value: "true(boolean)",
+          label: "true(boolean)",
+        },
+        {
+          value: "round(number)",
+          label: "round(number)",
+        },
+        {
+          value: "add(number)",
+          label: "add(number)",
+        },
+        {
+          value: "minus(number)",
+          label: "minus(number)",
         },
       ],
       keyValue: [
@@ -213,6 +525,20 @@ export default {
           value: "All",
           label: "All",
           path: "All",
+        },
+      ],
+      roundMethodValue: [
+        {
+          value: "round",
+          label: "round",
+        },
+        {
+          value: "floor",
+          label: "floor",
+        },
+        {
+          value: "ceil",
+          label: "ceil",
         },
       ],
       setAll: [],
@@ -289,24 +615,70 @@ export default {
     // add the operation
     addOperation() {
       switch (this.operation) {
-        case "upper-all":
+        case "upper(string)":
           this.operationsStep.push({
             name: this.operation,
             path: "All",
           });
           break;
-        case "lower-all":
+        case "lower(string)":
           this.operationsStep.push({
             name: this.operation,
             path: "All",
           });
           break;
-        case "replace":
+        case "replace(string)":
           this.operationsStep.push({
             name: this.operation,
             path: "All",
             oldStr: "",
             newStr: "",
+          });
+          break;
+        case "delete(string)":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+            str: "",
+          });
+          break;
+        case "convert(boolean)":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+          });
+          break;
+        case "false(boolean)":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+          });
+          break;
+        case "true(boolean)":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+          });
+          break;
+          case "round(number)":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+            roundMethod: "round"
+          });
+          break;
+          case "add(number)":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+            num: 1
+          });
+          break;
+          case "minus(number)":
+          this.operationsStep.push({
+            name: this.operation,
+            path: "All",
+            num: 1
           });
           break;
         default:
@@ -323,7 +695,6 @@ export default {
 
     // check is completed or not
     checkSet(index) {
-      debugger
       let complete = true;
       for (let item in this.operationsStep[index]) {
         if (
@@ -341,18 +712,18 @@ export default {
       }
     },
 
-    clicktest() {
+    handleOperations() {
       let operationsStep = [];
       this.operationsStep.forEach((item, index) => {
-        if(this.setAll[index].set) {
+        if (this.setAll[index].set) {
           operationsStep.push(JSON.parse(JSON.stringify(item)));
         }
-      })
-      let a = processOperations(
+      });
+      let handleData = processOperations(
         JSON.parse(JSON.stringify(this.originalJson)),
         JSON.parse(JSON.stringify(operationsStep))
       );
-      this.jsonFormat = JSON.parse(JSON.stringify(a));
+      this.jsonFormat = JSON.parse(JSON.stringify(handleData));
     },
   },
 };

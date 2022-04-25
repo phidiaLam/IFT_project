@@ -237,7 +237,12 @@ export default {
   },
   methods: {
     init() {
-      this.show = localStorage.getItem("json");
+      if (localStorage.getItem("json") != null) {
+        this.show = localStorage.getItem("json");
+      } else {
+        // if has not value in the local storage, redirect to home page.
+        this.$router.push("/");
+      }
     },
     downloadFile(fileFormat) {
       switch (fileFormat) {
