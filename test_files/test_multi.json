@@ -1,51 +1,21 @@
 {
-    "projectInfo" : {
-        "version": 5.0,
-        "release": "2022-01-24 00:00:00",
-        "developer": [
-            {
-                "name": "Alex",
-                "phone": "41324153211",
-                "email": "ew4123r@leeds.ac.uk"
-            },
-            {
-                "name": "Jane",
-                "phone": "143325125",
-                "email": "ewf13r123@leeds.ac.uk"
-            }
-        ]
-    },
-    "user": [
+    "youtuber": [
         {
-            "username": "sdjiaf",
-            "settings": {
-                "notice": true,
-                "font-size": 15,
-                "like": 1433,
-                "followers": [
-                    {
-                        "name": "Lisa"
-                    },
-                    {
-                        "name": "John"
-                    }
-                ]
+            "username": "Liliam",
+            "info": {
+                "description":  "Fight for your dreams",
+                "age": 27,
+                "like": 103423,
+                "followers_number": 2341
             }
         },
         {
-            "username": "dafwe_324",
-            "settings": {
-                "notice": false,
-                "font-size": 17,
+            "username": "phidia",
+            "info": {
+                "description": "Today is a wonderful day",
+                "age": 17,
                 "like": 1433,
-                "followers": [
-                    {
-                        "name": "Jany"
-                    },
-                    {
-                        "name": "Kaze"
-                    }
-                ]
+                "followers_number": 73
             }
         }
     ]

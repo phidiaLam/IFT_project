@@ -141,7 +141,7 @@
         <el-col class="col-area" :span="12">
           <el-card class="box-card">
             <div slot="header" class="clearfix">
-              <span>To Mysql</span>
+              <span>To Sql</span>
               <el-button class="download_btn" @click="downloadFile('sql')"
                 >Download</el-button
               >
