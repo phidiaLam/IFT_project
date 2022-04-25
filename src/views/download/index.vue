@@ -1,6 +1,11 @@
 <template>
   <div id="app-main">
-    <navbar></navbar>
+    <navbar>dsfsdfs</navbar>
+    <div>
+      <el-button class="clear_btn" type="primary" @click="clearData()"
+        >clear data in storage and return home page</el-button
+      >
+    </div>
     <div class="download-area">
       <el-row class="row-area">
         <el-col class="col-area" :span="12">
@@ -269,12 +274,21 @@ export default {
           break;
       }
     },
+
+    clearData() {
+      localStorage.removeItem("json");
+      this.$router.push("/");
+    },
   },
 };
 </script>
  
 <style lang="less" scoped>
 #app-main {
+  .clear_btn {
+    margin-top: 20px;
+    width: 100%;
+  }
   .download-area {
     margin: 0px 30px;
 
