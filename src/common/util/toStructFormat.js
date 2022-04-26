@@ -18,7 +18,7 @@ function handleToSingle(jsonObj, handledJson, parentPath = null, parentArrayLeve
     for (let key in jsonObj) {
         let path;
         if (parentPath == null) {
-            path = key;
+            path = "root";
         } else if(isArray) {
             path = parentPath;
         } else {
@@ -27,8 +27,8 @@ function handleToSingle(jsonObj, handledJson, parentPath = null, parentArrayLeve
         if (typeof (jsonObj[key]) == 'object' && parentArrayLevel == 1) {
             handleToSingle(jsonObj[key], handledJson, path, parentArrayLevel, key);
         } else if (typeof (jsonObj[key]) == 'object' && parentArrayLevel != 1) {
-            handleToSingle(jsonObj[key], handledJson, path, parentArrayLevel);
-        } else {
+            handleToSingle(jsonObj[key], handledJson, path, parentArrayLevel, parentArrayNode);
+        } else {debugger
             if(parentArrayNode != -1) {
                 if (handledJson[parentArrayNode] == undefined) {
                     handledJson.push({});
@@ -70,7 +70,7 @@ function handleToMulti(jsonObj, mulitArrayObj, parentPath = null, parentArray = 
     for (let key in jsonObj) {
         let path;
         if (parentPath == null) {
-            path = key;
+            path = "root";
         } else if (isArray) {
             path = parentPath;
         } else {

@@ -8,7 +8,7 @@ function getKeyAndPath(jsonObj, parentPath=null) {
     for (let key in jsonObj) {
         let path;
         if (parentPath == null) {
-            path = key;
+            path = "root";
         } else if(isArray) {
             path = parentPath;
         } else {

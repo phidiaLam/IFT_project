@@ -19,7 +19,7 @@ function singleOperation(jsonObj, operation, parentPath = null, isOperationArea 
             newJsonObj[key] = {};
             let path;
             if (parentPath == null) {
-                path = key;
+                path = "root";
             } else if (isArray) {
                 path = parentPath;
             } else {
@@ -40,7 +40,7 @@ function singleOperation(jsonObj, operation, parentPath = null, isOperationArea 
         newJsonObj[key] = {};
         let path;
         if (parentPath == null) {
-            path = key;
+            path = "root";
         } else if (isArray) {
             path = parentPath;
         } else {
