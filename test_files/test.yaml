@@ -1,9 +1,9 @@
 account:
-    bot: 8143241512
-    admin: 213424101
+    bot: 4323462451
+    admin: 1324234214
     group:
-        groupId: 685114124
-        closeBeta: false
+        groupId: 454353152
+        closeBeta: true
 
 miraiApi:
     host: 127.0.0.1
@@ -11,7 +11,7 @@ miraiApi:
         http: 8080
         ws: 8080
     authKey: "121351267890"
-    folder:
+    folder: "/test"
 
 console:
     host: 0.0.0.0
@@ -20,8 +20,8 @@ console:
 baiduCloud:
     enable: true
     appId: 241234241
-    apiKey: tVdCXeYI7FeEdgwuZzNpPAEX
-    secretKey: 7Td6NbaMVt0tj3qfsdEfwBHI7O 
+    apiKey: "789SFDhdusy(SHFUhdfuisfiha"
+    secretKey: "FJ*W$jf89SFHU$HU4Hf89hwiuh8" 
 
 message:
     limit:

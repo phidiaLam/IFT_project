@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<shopping_car>
+    <good>
+        <name>Software Engineering</name>
+        <info>
+            <price>$5</price>
+            <number>1</number>
+            <type>Book</type>
+            <remaining_quantity>67</remaining_quantity>
+        </info>
+    </good>
+    <good>
+        <name>Apple</name>
+        <info>
+            <price>$1</price>
+            <number>6</number>
+            <type>Fruit</type>
+            <remaining_quantity>99</remaining_quantity>
+        </info>
+    </good>
+    <good>
+        <name>Shampoo</name>
+        <info>
+            <price>$6</price>
+            <number>1</number>
+            <type>Daily necessities</type>
+            <remaining_quantity>46</remaining_quantity>
+        </info>
+    </good>
+    <good>
+        <name>Cakes</name>
+        <info>
+            <price>$3</price>
+            <number>3</number>
+            <type>Baking</type>
+            <remaining_quantity>16</remaining_quantity>
+        </info>
+    </good>
+    <good>
+        <name>Paper towels</name>
+        <info>
+            <price>$2</price>
+            <number>5</number>
+            <type>Daily necessities</type>
+            <remaining_quantity>145</remaining_quantity>
+        </info>
+    </good>
+</shopping_car>
